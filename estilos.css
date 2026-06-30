@@ -1,0 +1,548 @@
+/* ═══════════════════════════════════════════════════════════════
+   Evaluador de Usabilidad — Heurísticas de Nielsen
+   Diseño: Minimalista / limpio
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Variables ─────────────────────────────────────────────── */
+:root {
+  --color-bg:        #f8f9fa;
+  --color-surface:   #ffffff;
+  --color-border:    #e5e7eb;
+  --color-text:      #1f2937;
+  --color-muted:     #6b7280;
+  --color-accent:    #6366f1;
+  --color-accent-lt: #eef2ff;
+
+  --nivel-excelente:     #059669;
+  --nivel-excelente-bg:  #ecfdf5;
+  --nivel-bueno:         #2563eb;
+  --nivel-bueno-bg:      #eff6ff;
+  --nivel-aceptable:     #d97706;
+  --nivel-aceptable-bg:  #fffbeb;
+  --nivel-deficiente:    #dc2626;
+  --nivel-deficiente-bg: #fef2f2;
+  --nivel-muy:           #7c3aed;
+  --nivel-muy-bg:        #f5f3ff;
+
+  --radius:   10px;
+  --shadow:   0 1px 4px rgba(0,0,0,.07);
+  --font:     'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Reset / base ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── Layout ────────────────────────────────────────────────── */
+.container {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+.container--wide { max-width: 860px; }
+
+/* ── Header ────────────────────────────────────────────────── */
+.site-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px; height: 48px;
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 12px;
+  letter-spacing: .04em;
+  margin-bottom: .75rem;
+}
+.site-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -.02em;
+}
+.subtitle {
+  font-size: .9rem;
+  color: var(--color-muted);
+  margin-top: .25rem;
+}
+
+/* ── Cards ─────────────────────────────────────────────────── */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.card--flat { box-shadow: none; }
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: .4rem;
+}
+.card-desc {
+  font-size: .9rem;
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* ── Meta de evaluación ────────────────────────────────────── */
+.eval-meta { padding: 1rem 1.75rem; }
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 560px) {
+  .meta-grid { grid-template-columns: 1fr 1fr; }
+}
+.meta-label {
+  display: block;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--color-muted);
+  margin-bottom: .15rem;
+}
+
+/* ── Alerts ────────────────────────────────────────────────── */
+.alert {
+  border-radius: var(--radius);
+  padding: .9rem 1.25rem;
+  font-size: .9rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid transparent;
+}
+.alert-error {
+  background: var(--nivel-deficiente-bg);
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+.alert-info {
+  background: var(--color-accent-lt);
+  border-color: #c7d2fe;
+  color: #3730a3;
+}
+
+/* ── Formulario ────────────────────────────────────────────── */
+.field { margin-bottom: 1.25rem; }
+
+label {
+  display: block;
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: .4rem;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+  width: 100%;
+  padding: .65rem .9rem;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  font-size: .95rem;
+  font-family: var(--font);
+  color: var(--color-text);
+  background: var(--color-surface);
+  transition: border-color .15s;
+  outline: none;
+}
+input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+}
+
+.field-hint {
+  font-size: .78rem;
+  color: var(--color-muted);
+  margin-top: .3rem;
+  display: block;
+}
+
+/* ── Botones ───────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .65rem 1.4rem;
+  border-radius: 7px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: background .15s, transform .1s;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+.btn-primary:hover { background: #4f46e5; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+.btn-secondary:hover { background: var(--color-accent-lt); }
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+/* ── Barra de progreso de ponderación ─────────────────────── */
+.progress-bar-wrap {
+  background: var(--color-border);
+  border-radius: 99px;
+  height: 8px;
+  margin-bottom: .5rem;
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--color-muted);
+  transition: width .25s, background .2s;
+  width: 0%;
+}
+.progress-bar.ok   { background: var(--nivel-excelente); }
+.progress-bar.over { background: var(--nivel-deficiente); }
+.progress-label {
+  font-size: .82rem;
+  color: var(--color-muted);
+  display: block;
+  text-align: right;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Heurística card ───────────────────────────────────────── */
+.heuristica-card { margin-bottom: 1.5rem; }
+
+.heuristica-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.heuristica-badge {
+  background: var(--color-accent-lt);
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: .8rem;
+  letter-spacing: .06em;
+  padding: .3rem .6rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-top: .15rem;
+}
+.heuristica-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: .5rem;
+}
+
+/* ── Ponderación ───────────────────────────────────────────── */
+.ponderacion-wrap {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.ponderacion-wrap label {
+  margin: 0;
+  font-weight: 400;
+  color: var(--color-muted);
+  font-size: .875rem;
+}
+.input-ponderacion {
+  width: 70px !important;
+  padding: .35rem .6rem !important;
+  font-size: .9rem !important;
+}
+.pct-label { font-size: .9rem; color: var(--color-muted); }
+
+/* ── Escala legend ─────────────────────────────────────────── */
+.escala-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.25rem;
+  font-size: .78rem;
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ── Preguntas ─────────────────────────────────────────────── */
+.pregunta-row {
+  padding: .85rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.pregunta-row:last-child { border-bottom: none; }
+.pregunta-row.pregunta-error {
+  background: #fff5f5;
+  border-radius: 8px;
+  padding: .85rem .75rem;
+  border: 1px solid #fca5a5;
+  margin-bottom: .5rem;
+}
+
+.pregunta-texto {
+  font-size: .9rem;
+  color: var(--color-text);
+  margin-bottom: .7rem;
+}
+.pregunta-num {
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-right: .3rem;
+}
+
+/* ── Escala de botones ─────────────────────────────────────── */
+.escala-btns {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.escala-btn {
+  cursor: pointer;
+  user-select: none;
+}
+.escala-btn input[type="radio"] {
+  display: none;
+}
+.escala-btn span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 7px;
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  background: var(--color-surface);
+  transition: all .12s;
+}
+.escala-btn:hover span {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-lt);
+}
+.escala-btn input:checked + span {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+/* ── Resultado general ─────────────────────────────────────── */
+.resultado-general {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.75rem;
+}
+.resultado-icono {
+  font-size: 2.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.resultado-etiqueta {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--color-muted);
+  margin-bottom: .2rem;
+}
+.resultado-score {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+}
+.resultado-nivel {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: .25rem;
+}
+
+/* Colores por nivel en card general */
+.nivel-excelente    { border-left: 4px solid var(--nivel-excelente); }
+.nivel-excelente .resultado-score,
+.nivel-excelente .resultado-nivel { color: var(--nivel-excelente); }
+
+.nivel-bueno        { border-left: 4px solid var(--nivel-bueno); }
+.nivel-bueno .resultado-score,
+.nivel-bueno .resultado-nivel { color: var(--nivel-bueno); }
+
+.nivel-aceptable    { border-left: 4px solid var(--nivel-aceptable); }
+.nivel-aceptable .resultado-score,
+.nivel-aceptable .resultado-nivel { color: var(--nivel-aceptable); }
+
+.nivel-deficiente   { border-left: 4px solid var(--nivel-deficiente); }
+.nivel-deficiente .resultado-score,
+.nivel-deficiente .resultado-nivel { color: var(--nivel-deficiente); }
+
+.nivel-muy-deficiente { border-left: 4px solid var(--nivel-muy); }
+.nivel-muy-deficiente .resultado-score,
+.nivel-muy-deficiente .resultado-nivel { color: var(--nivel-muy); }
+
+/* ── Tabla de resultados ───────────────────────────────────── */
+.tabla-wrap { overflow-x: auto; }
+.tabla-resultados {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .875rem;
+}
+.tabla-resultados th,
+.tabla-resultados td {
+  padding: .65rem .85rem;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: middle;
+}
+.tabla-resultados th {
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--color-muted);
+  font-weight: 600;
+}
+.tabla-resultados tfoot td,
+.tabla-resultados tfoot th {
+  border-top: 2px solid var(--color-border);
+  border-bottom: none;
+  font-weight: 700;
+}
+.text-center { text-align: center !important; }
+
+/* Barra mini en tabla */
+.barra-mini-wrap {
+  background: var(--color-border);
+  border-radius: 99px;
+  height: 5px;
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+.barra-mini {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 99px;
+}
+
+/* ── Badges ────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: .2rem .55rem;
+  border-radius: 99px;
+  font-size: .75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge.nivel-excelente    { background: var(--nivel-excelente-bg);   color: var(--nivel-excelente); }
+.badge.nivel-bueno        { background: var(--nivel-bueno-bg);        color: var(--nivel-bueno); }
+.badge.nivel-aceptable    { background: var(--nivel-aceptable-bg);    color: var(--nivel-aceptable); }
+.badge.nivel-deficiente   { background: var(--nivel-deficiente-bg);   color: var(--nivel-deficiente); }
+.badge.nivel-muy-deficiente { background: var(--nivel-muy-bg);        color: var(--nivel-muy); }
+
+/* ── Gráfica ───────────────────────────────────────────────── */
+.chart-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+.chart-wrap canvas {
+  max-width: 420px;
+  max-height: 420px;
+}
+
+/* ── Escala de clasificación ───────────────────────────────── */
+.escala-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: .75rem;
+  margin-top: .5rem;
+}
+.escala-item {
+  border-radius: 8px;
+  padding: .85rem 1rem;
+  border: 1px solid var(--color-border);
+}
+.escala-item strong {
+  display: block;
+  font-size: .875rem;
+  font-weight: 700;
+  margin-bottom: .15rem;
+}
+.escala-item span {
+  font-size: .78rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: .4rem;
+}
+.escala-item p { font-size: .78rem; color: var(--color-muted); }
+.escala-item.nivel-excelente    { background: var(--nivel-excelente-bg);   border-color: #6ee7b7; }
+.escala-item.nivel-excelente strong,
+.escala-item.nivel-excelente span { color: var(--nivel-excelente); }
+.escala-item.nivel-bueno        { background: var(--nivel-bueno-bg);        border-color: #bfdbfe; }
+.escala-item.nivel-bueno strong,
+.escala-item.nivel-bueno span { color: var(--nivel-bueno); }
+.escala-item.nivel-aceptable    { background: var(--nivel-aceptable-bg);    border-color: #fde68a; }
+.escala-item.nivel-aceptable strong,
+.escala-item.nivel-aceptable span { color: var(--nivel-aceptable); }
+.escala-item.nivel-deficiente   { background: var(--nivel-deficiente-bg);   border-color: #fca5a5; }
+.escala-item.nivel-deficiente strong,
+.escala-item.nivel-deficiente span { color: var(--nivel-deficiente); }
+.escala-item.nivel-muy-deficiente { background: var(--nivel-muy-bg);        border-color: #ddd6fe; }
+.escala-item.nivel-muy-deficiente strong,
+.escala-item.nivel-muy-deficiente span { color: var(--nivel-muy); }
+
+/* ── Footer ────────────────────────────────────────────────── */
+.site-footer {
+  text-align: center;
+  padding-top: 2rem;
+  font-size: .8rem;
+  color: var(--color-muted);
+}
+
+/* ── Print ─────────────────────────────────────────────────── */
+@media print {
+  body { background: white; }
+  .btn, .form-actions { display: none; }
+  .card { box-shadow: none; break-inside: avoid; }
+}
+
+/* ── Mobile ────────────────────────────────────────────────── */
+@media (max-width: 540px) {
+  .container { padding: 1.25rem .9rem 2.5rem; }
+  .resultado-general { flex-direction: column; gap: .75rem; text-align: center; }
+  .escala-btns { gap: .35rem; }
+  .escala-btn span { width: 36px; height: 36px; font-size: .85rem; }
+  .heuristica-header { flex-direction: column; }
+}
