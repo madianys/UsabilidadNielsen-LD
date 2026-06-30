@@ -79,6 +79,8 @@ $heuristicas = [
       <div class="logo-mark">EU</div>
       <h1>Evaluador de Usabilidad</h1>
       <p class="subtitle">Cuestionario de Heurísticas de Nielsen</p>
+      <p class="subtitle">por: Luis Diego Lezcano</p>
+
     </header>
 
     <div class="eval-meta card card--flat">
