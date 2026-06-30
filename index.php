@@ -13,6 +13,7 @@
       <div class="logo-mark">EU</div>
       <h1>Evaluador de Usabilidad</h1>
       <p class="subtitle">Basado en las Heurísticas de Nielsen</p>
+      <p class="subtitle">por: Luis Diego Lezcano</p>
     </header>
 
     <main class="card">
